@@ -1,0 +1,484 @@
+Readme
+
+Gemma Smith, COMP86, Assignment 5
+
+Fulfilling requirements of the assignment:
+
+1. Add your own logic or rules to turn your simulation into a game
+   My program has two possible ways to run -- simulation mode or game mode.
+   - Simulation mode is run if the user clicks "Don't add any boat" in the first
+     start window. In this mode, the user has no control over anything that
+     happens in the map, but can pan and zoom in the screen as he/she wishes. If
+     he/she clicks "Add/Change My Ship" in the control panel of the main window,
+     the original start window will pop up again and he/she will have the option
+     to create a new ship again.
+   - Game mode is run if the user fills out the information to create a new
+     lobsterboat, and clicks "Add my ship". After this is clicked, the status
+     panel is filled in with *full* life and *empty* lobster catch. The user's
+     new boat is added to the map. Then, a Rules and Objectives will pop up,
+     explaining the rules/objectives of the game. I will include them here:
+
+            Objective: Collect any 5 lobster traps from around the bay.
+            
+            1. How to change direction</u>: Click the map surrounding your
+               lobsterboat. Your boat will point toward where you clicked.
+               There are only 8 possible directions (N, NE, E, SE, S, etc.).
+            2. Collisions: Unlike the other ships in the simulation, your
+               boat will not sink upon the first collision. Whichever ship
+               you hit will sink. You will be moved back to your starting
+               location, and your life count will decrease.
+               You can only die 5 times before your game will finish.
+            3. How to change speed</u>: Adjust the slider on the right
+
+2. Provide an area on your screen that displays the status of the game
+   The status panel in the righthand column of the main window displays the
+   user's status (if he/she decided to create and control a lobsterboat). The
+   life bar will start off full (5 lives), and the lobster bar will start off
+   empty (0 lobsters). Every time the user "dies", his/her life count will
+   decrease and the bar will display the new life count. Above 3, the life count
+   will appear green. At 3 or below, the life count will appear red.
+
+   Every time the user "picks up a lobster pot", his/her lobster count will
+   increase and the lobster bar will display the new lobster count. The lobster
+   count will appear blue.
+
+3. Add four special effects and optional features
+   1) I provided more sophisticated zooming and panning controls. I added the
+      panning feature to my map, which allows the user to click-and-drag
+	  anywhere on the map, to pan to a new view of the overall map.
+   2) In the lower right corner of the main window, there is a small overview
+      map that shows the entire virtual area, in addition to indicating the 
+	  area that the large zoomed-in map currently covers. The small overview map
+	  will update as necessary.
+   3) I added sound effects for the tanker explosions, user collisions, and
+      user lobster pickups. When a tanker explodes, there is an explosion noise.
+	  When the user collides with anything (and his/her death count goes down),
+	  there is a down-slide noise. When the user picks up a lobster pot, there
+	  is an upward-bell noise.
+   4) I added a save scores feature. When the user "wins" or "loses", the game
+      over window will pop up saying with choices "Start over" or "Quit". If the
+	  user selects "start over", s/he will be brought to the save scores window,
+	  which give him/her the option of saving this last score with a
+	  personalized name. All games from the same day will be written to the same
+	  file, based on the date (i.e SHIP_SCORES_2013.12.10.txt). After several
+	  times saving your score, the file will look something like this:
+	  "	
+		10:25:47, game1:
+			Lobster Catch: 0
+			Life Count: 0
+		10:25:55, game2:
+			Lobster Catch: 0
+			Life Count: 0
+		10:26:41, game3:
+			Lobster Catch: 5
+			Life Count: 4
+	  "
+
+4. Polish up your overall user interface
+   I decided that fewer controls was more intuitive and typical of a "real"
+   program. On the lefthand side, I have the zoom slider. On the righthand side,
+   I have the control panel.
+   
+   Now, my control panel consists only of the (1) status panel, (2) user
+   boat information / speed control (1 and 2 are only applicable when the user
+   has created his/her own lobsterboat), (3) a button to pause the animation,
+   (4) a button to bring up the rules and objectives, (5) a button to add or
+   change the user ship, and (6) a small map overview.
+
+   All these graphics in the control panel are enabled or disabled as necessary-
+   for example, when the user opens up the rules and objectives window, the
+   "Add/Change My Ship" window or if he/she finishes the game and the "Game
+   Over" window pops up, all the appropriate widgets in the control panel will
+   be disabled.
+
+5. Present complete and clear design documentation
+
+6. Add an extra creativity, extra work, or extra feature
+   (*each "extra feature" is marked with (1), (2), ...*)
+   (1) I implemented many popup windows as a central part of my GUI scheme.
+       This minimizes the amount of information the user sees in the main
+	   window, and generally makes both the aesthetics and the functionality of
+	   the program better.
+
+   (2) I added a menu bar, with the following options:
+	Ship Radar
+   		- (3) About Ship Radar
+			* opens an "about" window, which gives the author name, class
+			  name, etc.
+		- (4) Preferences
+			* opens a "preferences" window, which gives the user options to
+			  mute sound or change the theme to "nighttime theme".
+	File
+		- Add/Change Your Ship
+			* opens the add/change your ship window (same as the button in the
+			  control panel)
+		- (5) View Recent Scores
+			* opens a window which displays all recent scores (since opening the
+			  program)
+		- Quit
+	Help
+		- Rules and Objectives
+			* opens the rules and objectives window (same as the button in the
+			  control panel)
+	
+	** NOTE: about all windows
+		- I have set the default close operation to DO_NOTHING_ON_CLOSE
+				(setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);)
+		  for all windows except the main program. This was in order to force
+		  the user to use the buttons I provide him/her with, rather than using
+		  the X in Linux or Windows (or red dot for XOS) at the top of all
+		  windows.
+7. Program Design and Practices
+   See Design Documentation below.
+
+-------------------------------------------------------------------------------
+
+>>Class Hierarchy
+    An outline showing the inheritance hierarchy
+
+    I. java.lang.Object
+        A. java.awt.Component
+            a. java.awt.Container
+                + javax.swing.JComponent
+                    - Map
+                    - MapOverview
+                    - UserStatus
+                    - javax.swing.AbstractButton
+                        + javax.swing.JButton
+                            - MyButton
+                    - javax.swing.JComboBox
+                        + MyComboBox
+                    - javax.swing.JPanel
+                        + AddShipControl
+                        + UserControl
+                    - javax.swing.JSlider
+                        + SpeedSlider
+                        + ZoomSlider
+                    - javax.swing.text.JTextComponent
+                        + javax.swing.JTextField
+                            - MyTextBox
+                + java.awt.Window
+                    - java.awt.Frame
+                        + javax.swing.JFrame
+                            - GameOverWindow
+                            - RulesWindow
+                            - StartWindow
+        B. Main (implements java.awt.event.ActionListener)
+        C. Ship
+            a. Lobsterboat
+            b. Sailboat
+            c. Tanker
+        D. Island
+        E. Rocks
+        F. NavBuoys
+        G. LobsterPot
+        H. GridLines
+        I. Explosion
+
+-------------------------------------------------------------------------------
+
+>>Aggregation Hierarchy
+    An outline showing the aggregation hierarchy (which objects contain or own
+    which other objects)
+
+    Main
+        + GameOverWindow
+            - JLabel
+            - MyButton
+        + RulesWindow
+            - JLabel
+            - MyButton
+        + StartWindow
+            - JLabel
+            - AddShipControl
+                + JLabel
+                + MyComboBox
+                + MyTextBox
+                + MyButton
+            - MyButton
+        + JFrame frame
+        + JPanel panel
+            - JPanel rightPanel
+                1. UserStatus
+                2. UserControl
+                    - JLabel
+                    - MyButton
+                    - SpeedSlider
+                    - SelectionFeature
+                        + JLabel
+                        + MyButton
+                3. JPanel pausePanel
+                    - JLabel
+                    - MyButton
+                4. MapOverview
+            - JPanel leftPanel
+                1. ZoomSlider
+        + Timer timer
+        + Map map
+            - ArrayList<Ship> listShips
+              1. Sailboat(s)
+                 .. Ellipse2D.Double ship
+              2. Lobsterboat(s)
+                 .. GeneralPath ship
+              3. Tanker(s)
+                 .. GeneralPath ship
+            - Island
+                 .. GeneralPath shapes
+            - Rocks
+            - Navigational buoys
+            - Lobsterpots
+            - Oil spills
+
+--------------------------------------------------------------------------------
+
+>>A list showing uses or collaboration relationships (which objects use which other
+objects to perform functions). The information hiding secrets of each of your classes
+(i.e., what design decisions are entirely encapsulated within that class).
+
+
+Main
+    - Instance variables (all private):
+        + Map object
+        + Timer
+        + Global boolean timerON to keep track of whether/not animation
+          is on
+        + SpeedControl object (which the StartStopListener needs to access)
+    - Methods
+        + *private* drawTitle()
+        + *private* drawControls()
+    - Inner classes
+        + StartStopListener, implementing ActionListener for the startStopButton
+        + TimerListener, implementing ActionListener for the timer
+    - Responsibilities:
+        + Set up main window (JFrame) and panels (JPanel) within the window
+        + Create main objects we need: Map, control panels (pausePanel,
+          addShipControl, getInfoControl, speedControl)
+        + Lay out the main window
+        + Set up timer (Timer) to signal every 150 milliseconds
+        + Set up the listener (actionPerformed) to repaint the map every time the
+          timer signals
+    - Uses (which classes):
+        + Map: main canvas
+        + AddShipControl: control panel for adding new ships to map
+        + GetInfoControl: control panel for getting information about ships
+        + SpeedControl: control panel for changing the speed of a ship
+        + MyButton
+
+Map (extends JComponent)
+    - Instance variables:
+        + *private* List of ships
+        + *private* Number of ships
+    - Methods
+        + paintComponent() callback, overloaded from JComponent
+        + getListShips()
+        + getNumShips()
+        + animate()
+        + addShip()
+        + addDefaultShip()
+    - Responsibilities:
+        + Create and maintain the drawing canvas
+        + Create the ships for the simulation, and maintain a list of them
+        + Provide main drawing/redrawing routine for canvas
+        + Provide "tick" routine for animation (animate() )
+        + Provide routines for adding ships
+    - Uses:
+        + Ship>Sailboat/Lobsterboat/Tanker: does the drawing
+
+Ship
+    Abstract class
+    - Instance variables (*protected*; i.e. hidden/encapsulated inside
+      parent/subclasses):
+        + Length of ship
+        + x coordinate of ship
+        + y coordinate of ship
+        + Current direction in degrees (with 0 representing "up")
+        + Current direction in radians
+        + Color of ship
+        + Label for ship
+    - Methods:
+        + getLen()
+        + getX()
+        + getY()
+        + getDirection()
+        + getSpeed()
+        + getColor()
+        + getText()
+        + getType(), abstract
+        + changeSpeed()
+        + changeToOriginalSpeed()
+        + changeDirection() -- *protected*
+        + updateLocation() -- *protected*
+        + toString()
+        + draw(), abstract
+    - Responsibilities:
+        + Abstract base class for all ships
+        + updateLocation(): changes xcoord and ycoord instance variables to
+          their *next* point (based on the ship's speed/direction)
+    - Uses: none
+
+Sailboat (extends Ship)
+    - Instance variables: inherited from Ship
+    - Methods:
+        + shipShape() -- *private*
+        + draw() callback, overloaded from Ship
+        + getType() callback, overloaded from Ship
+        + getShape()
+        + getNumSails()
+        + change NumSails()
+    - Responsibilities:
+        + Constructor: Initialize Sailboats to unique starting
+          position/direction/etc.
+        + Draw method: draw shape of sailboat, with text
+    - Uses: none
+
+Lobsterboat (extends Ship)
+    - Instance variables: inherited from Ship
+    - Methods:
+        + shipShape() -- *private*
+        + draw() callback, overloaded from Ship
+        + getType() callback, overloaded from Ship
+        + getShape()
+        + getDailyCatch()
+        + changeDailyCatch()
+    - Responsibilities:
+        + Constructor: Initialize Lobsterboats to unique starting
+          position/direction/etc.
+        + Draw method: draw shape of lobster boat, with text
+    - Uses: none
+
+Tanker (extends Ship)
+    - Instance variables: inherited from Ship
+    - Methods:
+        + shipShape() -- *private*
+        + draw() callback, overloaded from Ship
+        + getType() callback, overloaded from Ship
+        + getShape()
+        + getLoadSize()
+        + changeLoadSize()
+    - Responsibilities:
+        + Constructor: Initialize Tankers to unique starting
+          position/direction/etc.
+        + Draw method: draw shape of tanker, with text
+    - Uses: none
+
+Island
+    - Instance variables:
+        + public constant: color of land
+        + public constant: color of shallow water
+        + scale
+        + shape objects for three islands and two shallow water areas
+        + arrays of x and y coordinates for each shape
+    - Methods:
+        + scaleCoords()
+        + shape()
+        + getShapes()
+        + draw()
+
+Rocks
+    - Instance variables
+        + scale
+        + arrays of x and y coordinates for each rock
+        + array of names of rock clusters
+    - Methods:
+        + scaleCoords()
+        + getCoords()
+        + draw()
+
+NavBuoys
+    - Instance variables
+        + scale
+        + arrays of x and y coordinates for each buoy
+    - Methods:
+        + scaleCoords()
+        + getCoords()
+        + buoyShape()
+        + draw()
+
+LobsterPot
+    - Instance variables
+        + scale
+        + real x and y coordinates
+        + canvas x and y coordinates
+    - Methods
+        + scaleCoords()
+        + getRealX()
+        + getRealY()
+        + getCanvasX()
+        + getCanvasY()
+        + draw()
+
+AddShipControl (extends JPanel)
+    - Instance variables (all private):
+        + Map on which to base all data and response actions
+        + Dropdown menu to select ship type
+        + Textfields for user input
+        + Slider for user input
+        + Fields to store received user input (type, shipName, length, etc.)
+        + Buttons
+    - Methods:
+        + validInput() -- *private*
+    - Inner classes:
+        + AddListener, implements ActionListener for the addShipButton
+        + AddDefaultListener, implements ActionListener for the addDefaultButton
+        + SliderListener, implements ChangeListener for the speedSlider
+    - Responsibilities:
+        + Constructor: Initialize widgets for one integrated "interactive
+          control"
+
+UserControl (extends JPanel, implements ChangeListener)
+    - Instance variables (all private):
+        + Slider for user input
+        + Button
+        + Map on which to base all data and response actions
+        + JLabel title (which setEnabled() needs to access)
+    - Methods:
+        + setEnabled()
+        + stateChanged() callback, overloaded from ChangeListener
+    - Inner classes:
+        + TimerListener, implements ActionListener for timer
+        + BackListener, implements ActionListener for originalSpeedButton
+        + DeselectListener, implements ActionListener for deselectButton
+    - Responsibilities:
+        + Constructor: Initialize widgets for one integrated "interactive
+          control"
+
+MyTextBox (extends JTextfield, implements FocusListener)
+    - Instance variables (private):
+        + Prompt for textfield
+    - Methods:
+        + focusGained() callback, overloaded from FocusListener
+        + focusLost() callback, overloaded from FocusListener
+    - Responsibilities:
+        + Constructor for textfield, set up with hint
+
+MyComboBox (extends JComboBox, implements ItemListener)
+    - Instance variables (private):
+        + Response, based on user's choice from dropdown menu
+    - Methods:
+        + getResponse()
+        + itemStateChanged() callback, overloaded from ItemListener
+    - Responsibilities:
+        + Constructor for dropdown menu
+
+MyButton (extends JButton, implements ActionListener)
+    - Instance variables (private):
+        + Text that is displayed on button
+        + Color of text
+    - Methods:
+        + actionPerformed() callback, overloaded from ActionListener (not used
+         in this version)
+    - Responsibilities:
+        + Constructor for button
+
+SpeedSlider (extends JSlider)
+    - Instance variables (none)
+    - Methods
+    - Responsiblities:
+        + Constructor for slider which represents the range of ship speed
+
+ZoomSlider (extends JSlider)
+    - Instance variables (none)
+    - Methods
+    - Responsiblities:
+        + Constructor for slider which represents the range of zoom
+
